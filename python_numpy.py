@@ -179,10 +179,10 @@ if __name__ == "__main__":
     # # 3.2.2
     # 使用布尔数组i作为下标存取数组a中的元素：返回数组a中所有在数组b中对应下标为True的元素
     # # 生成10个满足[0,1)中均匀分布的随机数
-    a = np.random.rand(10)
-    print a
+    # a = np.random.rand(10)
+    # print a
     # # 大于0.5的元素索引
-    print a > 0.5
+    # print a > 0.5
     # # # 大于0.5的元素
     # b = a[a > 0.5]
     # print b
@@ -305,14 +305,14 @@ if __name__ == "__main__":
     # plot.show()
 
     # # 6.3 Poisson分布
-    x = np.random.poisson(lam=5, size=10000)
-    print x
-    pillar = 15
-    a = plot.hist(x, bins=pillar, normed=True, range=[0, pillar], color='g', alpha=0.5)
-    plot.grid()
-    plot.show()
-    print a
-    print a[0].sum()
+    # x = np.random.poisson(lam=5, size=10000)
+    # print x
+    # pillar = 15
+    # a = plot.hist(x, bins=pillar, normed=True, range=[0, pillar], color='g', alpha=0.5)
+    # plot.grid()
+    # plot.show()
+    # print a
+    # print a[0].sum()
 
     # # 6.4 直方图的使用
     # mu = 2

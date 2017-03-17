@@ -5,9 +5,11 @@
 
 ### python_base.py: 千行代码入门Python
 
-### python_functional.py: Python进阶: 函数式编程实例
+### python_func.py: Python进阶: 函数式编程实例
 
-### python_visual.py: 15张图入门Matplotlib
+### python_numpy.py: Numpy入门，绘制各种机器学习中涉及的图形，如线性回归、中心极限定理等
+
+### python_visual.py: Matplotlib入门
 
 ### python_spider.py: 一个很“水”的Python爬虫入门代码文件
 

@@ -3,15 +3,15 @@
 
 ---
 
-### python_base.py: 千行代码入门Python
+### python_base.py: Python入门
 
-### python_func.py: Python进阶: 函数式编程实例
+### python_func.py: Python进阶，函数式编程实例
 
 ### python_numpy.py: Numpy入门，绘制各种机器学习中涉及的图形，如线性回归、中心极限定理等
 
 ### python_visual.py: Matplotlib入门
 
-### python_spider.py: 一个很“水”的Python爬虫入门代码文件
+### python_spider.py: 简单的爬虫示例，GET和POST请求等
 
 ### python_weibo.py: “史上最详细”的Python模拟登录新浪微博流程
 

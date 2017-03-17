@@ -19,15 +19,19 @@ headers = {
 }
 
 data = {"pageNum": 1,"pageSize": 10,"userState": "0","userName": "lizhentan","organizationId": None}
-# 之所以进行转换，因为 Content-Type 为 application/json
 data = json.dumps(data)
-# 不进行转换，会报错 TypeError: POST data should be bytes, an iterable of bytes, or a file object. It cannot be of type str.
 data = bytes(data, 'utf8')
 
 request = urllib.request.Request(url, headers=headers, method='POST')
 response = urllib.request.urlopen(request, data=data, timeout=10)
 html = response.read().decode("utf-8")
 print(html)
+
+# 你可能碰到的问题：
+# 1、TypeError: POST data should be bytes or an iterable of bytes. It cannot be of ty
+# 链接：http://blog.csdn.net/o1101574955/article/details/51658809
+# 2、Python外部POST请求，常见四种请求体
+# 链接：http://blog.csdn.net/silencemylove/article/details/50462206
 
 print("===============================")
 
@@ -43,6 +47,7 @@ response = urllib.request.urlopen(request, timeout=100)
 html = response.read().decode("utf-8")
 print(html)
 
+print("===============================")
 
 # # 首先定义下边可能需要的变量
 # url = "https://www.baidu.com"

@@ -8,42 +8,34 @@ import sqlalchemy
 import sqlalchemy.orm
 import sqlalchemy.ext.declarative
 
-# 利用数据库字符串构造engine, echo为True将打印所有的sql语句, 其他数据库的链接方式可自行百度
-# engine = sqlalchemy.create_engine("mysql+pymysql://username:password@hostname/dbname", encoding="utf8", echo=True)
-engine = sqlalchemy.create_engine("mysql+pymysql://dba_0:mimadba_0@101.200.174.172/data_secret", encoding="utf8", echo=False)
 
-"""
-# 利用engine创建connection,因为使用了with所以不需要close操作,这部分不是重点
-with engine.connect() as conn:
-    # 最基础的用法
-    result = conn.execute("select * from tablename limit 10;")
-    for item in result:
-        print(item)
+# 建表语句
+# CREATE TABLE `role` (
+#   `id` int(11) NOT NULL AUTO_INCREMENT,
+#   `name` varchar(50) DEFAULT NULL,
+#   PRIMARY KEY (`id`),
+#   UNIQUE KEY `name` (`name`)
+# ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+#
+# CREATE TABLE `user` (
+#   `id` int(11) NOT NULL AUTO_INCREMENT,
+#   `name` varchar(50) NOT NULL,
+#   `age` int(11) DEFAULT NULL,
+#   `role_id` int(11) DEFAULT NULL,
+#   PRIMARY KEY (`id`),
+#   KEY `role_id` (`role_id`),
+#   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    # execute的几种用法,这里具体还是得参考pymysql的用法,不需要执行commit操作
-    conn.execute("insert into tablename(id, url, title) values(1, 'url1', 'title1');")
-    conn.execute("insert into tablename(id, url, title) values(%s, %s, %s);", 2, "url2", "title2")
-    conn.execute("insert into tablename(id, url, title) values(%s, %s, %s)", (3, "url3", "title3"))
-    conn.execute("insert into tablename(id, url, title) values(%s, %s, %s)", [(31, "url31", "title31"), (32, "url32", "title32")])
+# sqlalchemy使用教程 http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014320114981139589ac5f02944601ae22834e9c521415000
 
-    # 使用事务可以进行批量提交和回滚
-    trans = conn.begin()
-    try:
-        conn.execute("insert into tablename(id, url, title) values(%s, %s, %s)", [(4, "url4", "title4"), (5, "url5", "title5")])
-        trans.commit()
-    except Exception as excep:
-        trans.rollback()
-        raise
-    trans.close()
-"""
 
 # 首先需要生成一个BaseModel类,作为所有模型类的基类
 BaseModel = sqlalchemy.ext.declarative.declarative_base()
 
-
 # 构建数据模型User
 class User(BaseModel):
-    __tablename__ = "Users"         # 表名
+    __tablename__ = "User"         # 表名
     __table_args__ = {
         "mysql_engine": "InnoDB",   # 表的引擎
         "mysql_charset": "utf8",    # 表的编码格式
@@ -55,7 +47,7 @@ class User(BaseModel):
     age = sqlalchemy.Column("age", sqlalchemy.Integer, default=0)
 
     # 添加角色id外键,关联到表Roles的id属性
-    role_id = sqlalchemy.Column("role_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("Roles.id"))
+    role_id = sqlalchemy.Column("role_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("Role.id"))
 
     # 添加关系属性,关联到本实例的role_id外键属性上
     role = sqlalchemy.orm.relationship("Role", foreign_keys="User.role_id")
@@ -66,7 +58,7 @@ class User(BaseModel):
 
 # 构建数据模型Role
 class Role(BaseModel):
-    __tablename__ = "Roles"         # 表名
+    __tablename__ = "Role"         # 表名
     __table_args__ = {
         "mysql_engine": "InnoDB",   # 表的引擎
         "mysql_charset": "utf8",    # 表的编码格式
@@ -80,10 +72,11 @@ class Role(BaseModel):
     users = sqlalchemy.orm.relationship("User", foreign_keys="User.role_id")
 
 
+# 利用数据库字符串构造engine, echo为True将打印所有的sql语句, 其他数据库的链接方式可自行百度
+engine = sqlalchemy.create_engine("mysql://root:123456@172.16.1.130:3306/test", encoding="utf8", echo=False)
 # 利用Session对象连接数据库
 DBSessinon = sqlalchemy.orm.sessionmaker(bind=engine)   # 创建会话类
 session = DBSessinon()                                  # 创建会话对象
-
 
 # 删除所有表
 BaseModel.metadata.drop_all(engine)

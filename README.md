@@ -58,5 +58,5 @@
 ---
 
 ### 链接
-Python 一切皆对象：http://wangxin123.com/2017/03/20/Python%20%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1/
-Python 编码规范：http://wangxin123.com/2017/03/17/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/
+(Python 一切皆对象)[http://wangxin123.com/2017/03/20/Python%20%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1/]
+(Python 编码规范)[http://wangxin123.com/2017/03/17/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/]

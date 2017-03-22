@@ -3,6 +3,21 @@
 
 ---
 
+### 链接
+[软件安装包（pycharm、注册码、解析器等）](http://pan.baidu.com/s/1c2BZWpa)
+
+[Python 一切皆对象](http://wangxin123.com/2017/03/20/Python%20%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1/)
+
+[Python 编码规范](http://wangxin123.com/2017/03/17/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/)
+
+[The Python Standard Library](https://docs.python.org/3/library/index.html#library-index)
+
+[The Python Language Reference](https://docs.python.org/3/reference/index.html#reference-index)
+
+[The Python Tutorial 教程](https://docs.python.org/3/tutorial/index.html)
+
+---
+
 ### 模块
 
 #### python_base.py: Python入门
@@ -55,17 +70,3 @@
 
 #### python_markov_chain.py: 玩点好玩的--使用马尔可夫模型自动生成文章
 
----
-
-### 链接
-[软件安装包（pycharm、注册码、解析器等）](http://pan.baidu.com/s/1c2BZWpa)
-
-[Python 一切皆对象](http://wangxin123.com/2017/03/20/Python%20%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1/)
-
-[Python 编码规范](http://wangxin123.com/2017/03/17/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/)
-
-[The Python Standard Library](https://docs.python.org/3/library/index.html#library-index)
-
-[The Python Language Reference](https://docs.python.org/3/reference/index.html#reference-index)
-
-[The Python Tutorial 教程](https://docs.python.org/3/tutorial/index.html)

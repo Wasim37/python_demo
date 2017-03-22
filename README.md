@@ -3,9 +3,13 @@
 
 ---
 
+### 模块
+
 #### python_base.py: Python入门
 
 #### python_func.py: Python进阶，函数式编程实例
+
+#### python_mysql.py: Mysql增删改查简单示例
 
 #### python_numpy.py: Numpy入门，绘制各种图形，如线性回归、中心极限定理等
 
@@ -50,3 +54,9 @@
 #### MyShow: 玩点好玩的--知乎全部话题关系可视化
 
 #### python_markov_chain.py: 玩点好玩的--使用马尔可夫模型自动生成文章
+
+---
+
+### 链接
+Python 一切皆对象：http://wangxin123.com/2017/03/20/Python%20%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1/
+Python 编码规范：http://wangxin123.com/2017/03/17/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/

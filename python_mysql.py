@@ -6,18 +6,18 @@ import MySQLdb
 # 安装MySQLdb，请访问 http://sourceforge.net/projects/mysql-python
 # Linux平台可以访问：https://pypi.python.org/pypi/MySQL-python) 分为预编译的二进制文件和源代码安装包
 
-# # 数据库连接
-# # 打开数据库连接
-# db = MySQLdb.connect("172.16.1.130", "root", "123456", "test")
-# # 使用cursor()方法获取操作游标
-# cursor = db.cursor()
-# # 使用execute方法执行SQL语句
-# cursor.execute("SELECT VERSION()")
-# # 使用 fetchone() 方法获取一条数据库。
-# data = cursor.fetchone()
-# print "Database version : %s " % data
-# # 关闭数据库连接
-# db.close()
+# 数据库连接
+# 打开数据库连接
+db = MySQLdb.connect("172.16.1.130", "root", "123456", "test")
+# 使用cursor()方法获取操作游标
+cursor = db.cursor()
+# 使用execute方法执行SQL语句
+cursor.execute("SELECT VERSION()")
+# 使用 fetchone() 方法获取一条数据库。
+data = cursor.fetchone()
+print "Database version : %s " % data
+# 关闭数据库连接
+db.close()
 
 
 # # 创建数据库表
@@ -74,35 +74,35 @@ import MySQLdb
 # ..................................
 
 
-# 数据库查询操作
-# 打开数据库连接
-db = MySQLdb.connect("172.16.1.130", "root", "123456", "test")
-
-# 使用cursor()方法获取操作游标
-cursor = db.cursor()
-
-# SQL 查询语句
-sql = "SELECT * FROM EMPLOYEE \
-       WHERE INCOME > '%d'" % (1000)
-try:
-   # 执行SQL语句
-   cursor.execute(sql)
-   # 获取所有记录列表
-   results = cursor.fetchall()
-   for row in results:
-      fname = row[0]
-      lname = row[1]
-      age = row[2]
-      sex = row[3]
-      income = row[4]
-      # 打印结果
-      print "fname=%s,lname=%s,age=%d,sex=%s,income=%d" % \
-             (fname, lname, age, sex, income )
-except:
-   print "Error: unable to fecth data"
-
-# 关闭数据库连接
-db.close()
+# # 数据库查询操作
+# # 打开数据库连接
+# db = MySQLdb.connect("172.16.1.130", "root", "123456", "test")
+#
+# # 使用cursor()方法获取操作游标
+# cursor = db.cursor()
+#
+# # SQL 查询语句
+# sql = "SELECT * FROM EMPLOYEE \
+#        WHERE INCOME > '%d'" % (1000)
+# try:
+#    # 执行SQL语句
+#    cursor.execute(sql)
+#    # 获取所有记录列表
+#    results = cursor.fetchall()
+#    for row in results:
+#       fname = row[0]
+#       lname = row[1]
+#       age = row[2]
+#       sex = row[3]
+#       income = row[4]
+#       # 打印结果
+#       print "fname=%s,lname=%s,age=%d,sex=%s,income=%d" % \
+#              (fname, lname, age, sex, income )
+# except:
+#    print "Error: unable to fecth data"
+#
+# # 关闭数据库连接
+# db.close()
 
 
 # # 数据库更新操作

@@ -2,208 +2,278 @@
 
 """
 python_decorator.py by wangxin
+Python装饰器是一个很著名的设计模式，经常被用于有切面需求的场景，类似Java的AOP，较为经典的有插入日志、性能测试、事务处理等。
+装饰器是解决这类问题的绝佳设计，有了装饰器，我们就可以抽离出大量函数中与函数功能本身无关的雷同代码并继续重用。
+概括的讲，装饰器的作用就是为已经存在的对象添加额外的功能。
 """
 
 import functools
 
+# 第一步：最简单的函数，准备附加额外功能
+# -*- coding:gbk -*-
+'''示例1: 最简单的函数,表示调用了两次'''
 
-# 构建不带参数的装饰器
-def logging(func):
-    @functools.wraps(func)
-    def decorator(*args, **kwargs):
-        print("%s called" % func.__name__)
-        result = func(*args, **kwargs)
-        print("%s end" % func.__name__)
-        return result
-    return decorator
+def myfunc():
+    print("myfunc() called.")
 
-
-# 使用装饰器
-@logging
-def test01(a, b):
-    print("in function test01, a=%s, b=%s" % (a, b))
-    return 1
+myfunc()
+myfunc()
 
 
-# 使用装饰器
-@logging
-def test02(a, b, c=1):
-    print("in function test02, a=%s, b=%s, c=%s" % (a, b, c))
-    return 1
+
+# # 第二步：使用装饰函数在函数执行前和执行后分别附加额外功能
+# # -*- coding:gbk -*-
+# '''示例2: 替换函数(装饰)
+# 装饰函数的参数是被装饰的函数对象，返回原函数对象
+# 装饰的实质语句: myfunc = deco(myfunc)'''
+#
+# def deco(func):
+#     print("before myfunc() called.")
+#     func()
+#     print("  after myfunc() called.")
+#     return func
+#
+# def myfunc():
+#     print(" myfunc() called.")
+#
+# myfunc = deco(myfunc)
+#
+# myfunc()
+# myfunc()
 
 
-# 构建带参数的装饰器
-def params_chack(*types, **kwtypes):
-    def _outer(func):
-        @functools.wraps(func)
-        def _inner(*args, **kwargs):
-            result = [isinstance(_param, _type) for _param, _type in zip(args, types)]
-            assert all(result), "params_chack: invalid parameters"
-            result = [isinstance(kwargs[_param], kwtypes[_param]) for _param in kwargs if _param in kwtypes]
-            assert all(result), "params_chack: invalid parameters"
-            return func(*args, **kwargs)
-        return _inner
-    return _outer
+
+# # 第三步：使用语法糖 @ 来装饰函数
+# # -*- coding:gbk -*-
+# '''示例3: 使用语法糖@来装饰函数，相当于“myfunc = deco(myfunc)”
+# 但发现新函数只在第一次被调用，且原函数多调用了一次'''
+#
+# def deco(func):
+#     print("before myfunc() called.")
+#     func()
+#     print("  after myfunc() called.")
+#     return func
+#
+# @deco
+# def myfunc():
+#     print(" myfunc() called.")
+#
+# myfunc()
+# myfunc()
 
 
-# 使用装饰器
-@params_chack(int, (list, tuple))
-def test03(a, b):
-    print("in function test03, a=%s, b=%s" % (a, b))
-    return 1
+
+# # 第四步：使用内嵌包装函数来确保每次新函数都被调用
+# # -*- coding:gbk -*-
+# '''示例4: 使用内嵌包装函数来确保每次新函数都被调用，
+# 内嵌包装函数的形参和返回值与原函数相同，装饰函数返回内嵌包装函数对象'''
+#
+# def deco(func):
+#     def _deco():
+#         print("before myfunc() called.")
+#         func()
+#         print("  after myfunc() called.")
+#         # 不需要返回func，实际上应返回原函数的返回值
+#     return _deco
+#
+# @deco
+# def myfunc():
+#     print(" myfunc() called.")
+#     return 'ok'
+#
+# myfunc()
+# myfunc()
 
 
-# 使用装饰器
-@params_chack(int, str, c=(int, str))
-def test04(a, b, c):
-    print("in function test04, a=%s, b=%s, c=%s" % (a, b, c))
-    return 1
+
+# # 第五步：对带参数的函数进行装饰
+# # -*- coding:gbk -*-
+# '''示例5: 对带参数的函数进行装饰，
+# 内嵌包装函数的形参和返回值与原函数相同，装饰函数返回内嵌包装函数对象'''
+#
+#
+# def deco(func):
+#     def _deco(a, b):
+#         print("before myfunc() called.")
+#         ret = func(a, b)
+#         print("  after myfunc() called. result: %s" % ret)
+#         return ret
+#     return _deco
+#
+# @deco
+# def myfunc(a, b):
+#     print(" myfunc(%s,%s) called." % (a, b))
+#     return a + b
+#
+# myfunc(1, 2)
+# myfunc(3, 4)
 
 
-# 在类的成员方法中使用装饰器
-class ATest(object):
-    @params_chack(object, int, str)
-    def test(self, a, b):
-        print("in function test of ATest, a=%s, b=%s" % (a, b))
-        return 1
+
+# # 第六步：对参数数量不确定的函数进行装饰
+# # -*- coding:gbk -*-
+# '''示例6: 对参数数量不确定的函数进行装饰，
+# 参数用(*args, **kwargs)，自动适应变参和命名参数'''
+#
+# def deco(func):
+#     def _deco(*args, **kwargs):
+#         print("before %s called." % func.__name__)
+#         ret = func(*args, **kwargs)
+#         print("  after %s called. result: %s" % (func.__name__, ret))
+#         return ret
+#     return _deco
+#
+# @deco
+# def myfunc(a, b):
+#     print(" myfunc(%s,%s) called." % (a, b))
+#     return a + b
+#
+# @deco
+# def myfunc2(a, b, c):
+#     print(" myfunc2(%s,%s,%s) called." % (a, b, c))
+#     return a + b + c
+#
+# myfunc(1, 2)
+# myfunc(3, 4)
+# myfunc2(1, 2, 3)
+# myfunc2(3, 4, 5)
 
 
-# 同时使用多个装饰器
-@logging
-@params_chack(int, str, (list, tuple))
-def test05(a, b, c):
-    print("in function test05, a=%s, b=%s, c=%s" % (a, b, c))
-    return 1
+
+# # 第七步：让装饰器带参数
+# # -*- coding:gbk -*-
+# '''示例7: 在示例4的基础上，让装饰器带参数，
+# 和上一示例相比在外层多了一层包装。
+# 装饰函数名实际上应更有意义些'''
+#
+# def deco(arg):
+#     def _deco(func):
+#         def __deco():
+#             print("before %s called [%s]." % (func.__name__, arg))
+#             func()
+#             print("  after %s called [%s]." % (func.__name__, arg))
+#         return __deco
+#     return _deco
+#
+# @deco("mymodule")
+# def myfunc():
+#     print(" myfunc() called.")
+#
+# @deco("module2")
+# def myfunc2():
+#     print(" myfunc2() called.")
+#
+# myfunc()
+# myfunc2()
 
 
-# 构建不带参数的装饰器类
-class Decorator(object):
 
-    def __init__(self, func):
-        self.func = func
-        return
-
-    def __call__(self, *args, **kwargs):
-        print("%s called" % self.func.__name__)
-        result = self.func(*args, **kwargs)
-        print("%s end" % self.func.__name__)
-        return result
-
-
-# 使用装饰器
-@Decorator
-def test06(a, b, c):
-    print("in function test06, a=%s, b=%s, c=%s" % (a, b, c))
-    return 1
-
-
-# 构建带参数的装饰器类
-class ParamCheck(object):
-
-    def __init__(self, *types, **kwtypes):
-        self.types = types
-        self.kwtypes = kwtypes
-        return
-
-    def __call__(self, func):
-        @functools.wraps(func)
-        def _inner(*args, **kwargs):
-            result = [isinstance(_param, _type) for _param, _type in zip(args, self.types)]
-            assert all(result), "params_chack: invalid parameters"
-            result = [isinstance(kwargs[_param], self.kwtypes[_param]) for _param in kwargs if _param in self.kwtypes]
-            assert all(result), "params_chack: invalid parameters"
-            return func(*args, **kwargs)
-        return _inner
-
-
-# 使用装饰器
-@ParamCheck(int, str, (list, tuple))
-def test07(a, b, c):
-    print("in function test06, a=%s, b=%s, c=%s" % (a, b, c))
-    return 1
+# # 第八步：让装饰器带 类 参数
+# # -*- coding:gbk -*-
+# '''示例8: 装饰器带类参数'''
+#
+# class locker:
+#     def __init__(self):
+#         print("locker.__init__() should be not called.")
+#
+#     @staticmethod
+#     def acquire():
+#         print("locker.acquire() called.（这是静态方法）")
+#
+#     @staticmethod
+#     def release():
+#         print("  locker.release() called.（不需要对象实例）")
+#
+# def deco(cls):
+#     '''cls 必须实现acquire和release静态方法'''
+#
+#     def _deco(func):
+#         def __deco():
+#             print("before %s called [%s]." % (func.__name__, cls))
+#             cls.acquire()
+#             try:
+#                 return func()
+#             finally:
+#                 cls.release()
+#
+#         return __deco
+#
+#     return _deco
+#
+# @deco(locker)
+# def myfunc():
+#     print(" myfunc() called.")
+#
+# myfunc()
+# myfunc()
 
 
-# 装饰器实例: 函数缓存
-def funccache(func):
-    cache = {}
 
-    @functools.wraps(func)
-    def _inner(*args):
-        if args not in cache:
-            cache[args] = func(*args)
-        return cache[args]
-    return _inner
+# # 第九步：装饰器带类参数，并分拆公共类到其他py文件中，同时演示了对一个函数应用多个装饰器
+# # -*- coding:gbk -*-
+# '''mylocker.py: 公共类 for 示例9.py'''
+#
+# class mylocker:
+#     def __init__(self):
+#         print("mylocker.__init__() called.")
+#
+#     @staticmethod
+#     def acquire():
+#         print("mylocker.acquire() called.")
+#
+#     @staticmethod
+#     def unlock():
+#         print("  mylocker.unlock() called.")
+#
+# class lockerex(mylocker):
+#     @staticmethod
+#     def acquire():
+#         print("lockerex.acquire() called.")
+#
+#     @staticmethod
+#     def unlock():
+#         print("  lockerex.unlock() called.")
+#
+# def lockhelper(cls):
+#     '''cls 必须实现acquire和release静态方法'''
+#
+#     def _deco(func):
+#         def __deco(*args, **kwargs):
+#             print("before %s called." % func.__name__)
+#             cls.acquire()
+#             try:
+#                 return func(*args, **kwargs)
+#             finally:
+#                 cls.unlock()
+#
+#         return __deco
+#
+#     return _deco
+#
+# # -*- coding:gbk -*-
+# '''示例9: 装饰器带类参数，并分拆公共类到其他py文件中
+# 同时演示了对一个函数应用多个装饰器'''
+#
+# from mylocker import *
+#
+# class example:
+#     @lockhelper(mylocker)
+#     def myfunc(self):
+#         print(" myfunc() called.")
+#
+#     @lockhelper(mylocker)
+#     @lockhelper(lockerex)
+#     def myfunc2(self, a, b):
+#         print(" myfunc2() called.")
+#         return a + b
+#
+# if __name__ == "__main__":
+#     a = example()
+#     a.myfunc()
+#     print(a.myfunc())
+#     print(a.myfunc2(1, 2))
+#     print(a.myfunc2(3, 4))
 
-
-# 使用装饰器
-@funccache
-def test08(a, b, c):
-    # 其他复杂或耗时计算
-    return a + b + c
-
-
-# 使用Python自带的装饰器 @property
-class Person(object):
-
-    def __init__(self):
-        self._name = None
-        return
-
-    def get_name(self):
-        print("get_name")
-        return self._name
-
-    def set_name(self, name):
-        print("set_name")
-        self._name = name
-        return
-
-    name = property(fget=get_name, fset=set_name, doc="person name")
-
-
-# 使用Python自带的装饰器 @property
-class People(object):
-
-    def __init__(self):
-        self._name = None
-        self._age = None
-        return
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        self._name = name
-        return
-
-    @property
-    def age(self):
-        return self._age
-
-    @age.setter
-    def age(self, age):
-        assert 0 < age < 120
-        self._age = age
-        return
-
-
-# 类静态方法和类方法
-class A(object):
-    var = 1
-
-    def func(self):
-        print(self.var)
-        return
-
-    @staticmethod
-    def static_func():
-        print(A.var)
-        return
-
-    @classmethod
-    def class_func(cls):
-        print(cls.var)
-        cls().func()
-        return
+# 1. Python装饰器学习 http://blog.csdn.net/thy38/article/details/4471421
+# 2. Python装饰器与面向切面编程 http://www.cnblogs.com/huxi/archive/2011/03/01/1967600.html
+# 3. Python装饰器的理解 http://apps.hi.baidu.com/share/detail/17572338

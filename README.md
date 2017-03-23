@@ -24,15 +24,17 @@
 
 #### python_func.py: Python进阶，函数式编程实例
 
+#### python_mysql.py: 通过 MySQLdb 实现增删改查
+
+#### python_sqlalchemy.py: 通过 ORM 框架 SQLAlchemy 操作数据库
+
+#### python_decorator.py: Python进阶: 装饰器实例详解
+
 #### python_spider.py: 简单的爬虫示例，GET和POST请求等
 
 #### python_requests.py: Python爬虫库Requests代码实例
 
 #### python_aiohttp.py: Python异步爬虫库Aiohttp代码实例
-
-#### python_mysql.py: 通过 MySQLdb 实现增删改查
-
-#### python_sqlalchemy.py: 通过 ORM 框架 SQLAlchemy 操作数据库
 
 #### python_numpy.py: Numpy入门，绘制各种图形，如线性回归、中心极限定理等
 
@@ -45,8 +47,6 @@
 #### python_weibo.py: “史上最详细”的Python模拟登录新浪微博流程
 
 #### python_lda.py: 玩点高级的--带你入门Topic模型LDA（小改进+附源码）
-
-#### python_decorator.py: Python进阶: 通过实例详解装饰器（附代码）
 
 #### python_datetime.py: 你真的了解Python中的日期时间处理吗？
 

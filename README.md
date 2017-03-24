@@ -30,6 +30,10 @@
 
 #### python_decorator.py: Python进阶: 装饰器实例详解
 
+#### python_file.py: Python IO 编程，操作file文件
+
+#### python_context.py: With语句和上下文管理器ContextManager
+
 #### python_spider.py: 简单的爬虫示例，GET和POST请求等
 
 #### python_requests.py: Python爬虫库Requests代码实例
@@ -61,8 +65,6 @@
 #### python_magic_methods: Python进阶: 实例讲解Python中的魔法函数(Magic Methods)
 
 #### python_restful_api.py: 利用Python和Flask快速开发RESTful API
-
-#### python_context.py: With语句和上下文管理器ContextManager
 
 #### python_flask.py: Flask相关说明
 
